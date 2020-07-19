@@ -1,0 +1,16 @@
+.hold-still{
+    background-color: green;
+    display:grid;
+    height: 100vh;
+    width: 100vw;
+    color: white;
+    place-content: center;
+}
+.ready{
+    background-color: yellow;
+    display:grid;
+    height: 100vh;
+    width: 100vw;
+    color: black;
+    place-content: center;
+}
