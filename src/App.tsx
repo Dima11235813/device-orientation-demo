@@ -46,11 +46,13 @@ function App() {
     return window.document.createEvent("HTMLEvents");
   };
   let [appState, setAppState] = useState<AppState>(new AppState());
+  let [displayText, setDisplayText] = useState("")
   let display = getDisplayBasedOnState(appState);
   let orientationHelper = new OrientationHelper();
   let vibrationHelper = new VibrationHandler(
     orientationHelper,
-    toggleFailScreen
+    toggleFailScreen,
+    setDisplayText
   );
   return (
     <div className="App">
@@ -60,6 +62,7 @@ function App() {
         <button onClick={handleStartClick}>Start</button>
         <button onClick={handleStopClick}>Stop</button>
       </div>
+      <div>{displayText}</div>
     </div>
   );
 }

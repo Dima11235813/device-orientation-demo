@@ -57,6 +57,7 @@ export class OrientationHelper {
             )
             console.log(`Percent change ${this.percentChange}`)
         }
+        return this.percentChange
     }
     public handleOrientation =
         (
