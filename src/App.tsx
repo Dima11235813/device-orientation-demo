@@ -62,7 +62,7 @@ function App() {
         <button onClick={handleStartClick}>Start</button>
         <button onClick={handleStopClick}>Stop</button>
       </div>
-      <div>{displayText}</div>
+      <div className="display-text">{displayText}</div>
     </div>
   );
 }

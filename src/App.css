@@ -12,3 +12,10 @@ button {
   background-color: black;
   font-size: 3rem;
 }
+.display-text{
+  display: flex;
+  position: absolute;
+  left:1rempx;
+  bottom: 10vh;
+  font-size: 3rem;
+}
