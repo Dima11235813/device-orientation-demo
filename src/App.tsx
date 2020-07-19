@@ -57,7 +57,6 @@ function App() {
   return (
     <div className="App">
       {display}
-      <button onClick={handleClick}>Simulate Orientation Event</button>
       <div className="button-container">
         <button onClick={handleStartClick}>Start</button>
         <button onClick={handleStopClick}>Stop</button>
