@@ -2,13 +2,13 @@ import { OrientationHelper } from "./Orientation";
 
 export class VibrationHandler {
     public static vibrateDuration = 1000
-    public static changeThreshold = .03
+    public static changeThreshold = .01
     public displayText = ""
     vibrateDurationInterval: NodeJS.Timeout | undefined;
     constructor(public orientationHelper: OrientationHelper, public toggleFailScreen: Function, public setDisplayTextCb: Function) {
     }
     startVibrate = (duration: number | number[]) => {
-        this.setDisplayTextCb(`Percent errror ${this.orientationHelper.calcDiff()})`)
+        this.setDisplayTextCb(`Percent errror ${Math.floor(this.orientationHelper.calcDiff() * 100 )}%)`)
         if (this.orientationHelper.percentChange > VibrationHandler.changeThreshold) {
             this.toggleFailScreen(true)
             navigator.vibrate(duration);
