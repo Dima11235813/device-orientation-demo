@@ -1,5 +1,5 @@
 export enum ViewState {
-    StartScreen, Balancing
+    StartScreen, Balancing, Fail
 }
 
 export interface IAppState {

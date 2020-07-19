@@ -7,14 +7,24 @@ import { IAppState, AppState, ViewState } from "./App.model";
 import { getDisplayBasedOnState } from "./AppViewUtil";
 
 function App() {
-  let orientationHelper = new OrientationHelper();
-  let vibrationHelper = new VibrationHandler(orientationHelper);
   let orientationEventType = "deviceorientation";
   const handleStartClick = () => {
     vibrationHelper.startPersistentVibrate();
     setAppState({
       viewState: ViewState.Balancing,
     });
+  };
+
+  const toggleFailScreen = (showFailScreen: boolean) => {
+    if (showFailScreen) {
+      setAppState({
+        viewState: ViewState.Fail,
+      });
+    } else {
+      setAppState({
+        viewState: ViewState.Balancing,
+      });
+    }
   };
   const handleStopClick = () => {
     vibrationHelper.stopVibrate();
@@ -26,7 +36,7 @@ function App() {
     let event = createEvent();
 
     event.initEvent(orientationEventType, true, true);
-    console.log(`Emitting event ${JSON.stringify(event)}`);
+    // console.log(`Emitting event ${JSON.stringify(event)}`);
     window.dispatchEvent(event);
     setAppState({
       viewState: ViewState.Balancing,
@@ -37,6 +47,11 @@ function App() {
   };
   let [appState, setAppState] = useState<AppState>(new AppState());
   let display = getDisplayBasedOnState(appState);
+  let orientationHelper = new OrientationHelper();
+  let vibrationHelper = new VibrationHandler(
+    orientationHelper,
+    toggleFailScreen
+  );
   return (
     <div className="App">
       {display}
