@@ -14,3 +14,11 @@
     color: black;
     place-content: center;
 }
+.fail{
+    background-color: red;
+    display:grid;
+    height: 100vh;
+    width: 100vw;
+    color: white;
+    place-content: center;
+}
