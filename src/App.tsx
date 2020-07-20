@@ -25,7 +25,7 @@ function App() {
     }
   };
   let handleOrientationChange = (event: DeviceOrientationEvent) => {
-    vibrationHelper.checkFailStat()
+    vibrationHelper.handleChange()
   };
   let vibrationHelper = new VibrationHandler(
     orientationHelper,
