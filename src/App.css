@@ -6,6 +6,7 @@
   height: 20vh;
 }
 button {
+  cursor: pointer;
   height: 100%;
   width: 50vw;
   color:white;
@@ -13,9 +14,11 @@ button {
   font-size: 3rem;
 }
 .display-text{
-  display: flex;
+  display:grid;
+  place-content: center;
   position: absolute;
-  left:1rempx;
+  margin: auto;
   bottom: 10vh;
-  font-size: 3rem;
+  padding-left: 28vw;
+  font-size: 2rem;
 }

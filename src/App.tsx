@@ -7,14 +7,12 @@ import { IAppState, AppState, ViewState } from "./App.model";
 import { getDisplayBasedOnState } from "./AppViewUtil";
 
 function App() {
-  let orientationEventType = "deviceorientation";
-  const handleStartClick = () => {
-    vibrationHelper.startPersistentVibrate();
-    setAppState({
-      viewState: ViewState.Balancing,
-    });
-  };
+  let [displayText, setDisplayText] = useState("");
+  let [appState, setAppState] = useState<AppState>(new AppState());
+  let display = getDisplayBasedOnState(appState);
+  let orientationHelper = new OrientationHelper();
 
+  //Toggle fail screen on fails
   const toggleFailScreen = (showFailScreen: boolean) => {
     if (showFailScreen) {
       setAppState({
@@ -26,34 +24,29 @@ function App() {
       });
     }
   };
-  const handleStopClick = () => {
-    vibrationHelper.stopVibrate();
-    setAppState({
-      viewState: ViewState.StartScreen,
-    });
+  let handleOrientationChange = (event: DeviceOrientationEvent) => {
+    vibrationHelper.checkFailStat()
   };
-  const handleClick = () => {
-    let event = createEvent();
-
-    event.initEvent(orientationEventType, true, true);
-    // console.log(`Emitting event ${JSON.stringify(event)}`);
-    window.dispatchEvent(event);
-    setAppState({
-      viewState: ViewState.Balancing,
-    });
-  };
-  const createEvent = () => {
-    return window.document.createEvent("HTMLEvents");
-  };
-  let [appState, setAppState] = useState<AppState>(new AppState());
-  let [displayText, setDisplayText] = useState("")
-  let display = getDisplayBasedOnState(appState);
-  let orientationHelper = new OrientationHelper();
   let vibrationHelper = new VibrationHandler(
     orientationHelper,
     toggleFailScreen,
     setDisplayText
   );
+  //button click handlers
+  const handleStartClick = () => {
+    orientationHelper.setHandler(handleOrientationChange);
+    setAppState({
+      viewState: ViewState.Balancing,
+    });
+  };
+  const handleStopClick = () => {
+    orientationHelper.removeHandler();
+    setDisplayText("")
+    setAppState({
+      viewState: ViewState.StartScreen,
+    });
+  };
+
   return (
     <div className="App">
       {display}

@@ -5,30 +5,37 @@ export class VibrationHandler {
     public static changeThreshold = .03
     public displayText = ""
     vibrateDurationInterval: NodeJS.Timeout | undefined;
-    constructor(public orientationHelper: OrientationHelper, public toggleFailScreen: Function, public setDisplayTextCb: Function) {
+    constructor(
+        public orientationHelper: OrientationHelper, public toggleFailScreen: Function, 
+        public setDisplayTextCb: Function) {
     }
-    startVibrate = (duration: number | number[]) => {
-        this.setDisplayTextCb(`Percent errror ${this.orientationHelper.calcDiff() * 100 }%)`)
+    checkFailStat = () => {
+        this.setDisplayTextCb(`ERROR ${this.orientationHelper.calcDiff() * 100}%`)
         if (this.orientationHelper.percentChange > VibrationHandler.changeThreshold) {
+            this.vibrateThreeTimes()
             this.toggleFailScreen(true)
-            navigator.vibrate(duration);
+
         } else {
             this.toggleFailScreen(false)
         }
     }
 
-    // Stops vibration
-    stopVibrate = () => {
-        // Clear interval and stop persistent vibrating
-        if (this.vibrateDurationInterval) clearInterval(this.vibrateDurationInterval);
-        // navigator.vibrate(VibrationHandler.vibrateDuration);
-    }
-
-    // Start persistent vibration at given duration and interval
     // Assumes a number value is given
-    startPersistentVibrate(duration: number = 250, interval: number = 1000) {
-        this.vibrateDurationInterval = setInterval(() => {
-            this.startVibrate(duration);
+    vibrateOnce(duration: number = 250, interval: number = 1000) {
+        setTimeout(() => {
+            navigator.vibrate(duration);
         }, interval);
+    }
+    vibrateSpacer = 200
+    vibrateThreeTimes(duration: number = 250) {
+        setTimeout(() => {
+            navigator.vibrate(duration);
+        }, duration + this.vibrateSpacer);
+        setTimeout(() => {
+            navigator.vibrate(duration);
+        }, (duration + this.vibrateSpacer) * 2);
+        setTimeout(() => {
+            navigator.vibrate(duration);
+        }, (duration + this.vibrateSpacer) * 3);
     }
 }

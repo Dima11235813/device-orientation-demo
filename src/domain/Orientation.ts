@@ -8,22 +8,25 @@ export interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
 
 export class OrientationHelper {
     public percentChange: any;
-    shouldVibrate() {
-
-    }
     public deviceOrientation?: ExtendedDeviceOrientationEvent
     public lastDeviceOrientation?: ExtendedDeviceOrientationEvent
-    constructor(
-    ) {
-
-
+    callback?: Function;
+    constructor() {
         this.percentChange = 0
+    }
+    setHandler = (cb: Function) => {
+        this.callback = cb
         window.addEventListener(
             "deviceorientation",
-            (event: any) => {
-                this.handleOrientation(event)
-            },
+            this.handleOrientation,
             true
+        );
+    }
+    removeHandler = () => {
+        this.callback = undefined
+        window.removeEventListener(
+            "deviceorientation",
+            this.handleOrientation
         );
     }
     calcDiff = () => {
@@ -55,7 +58,7 @@ export class OrientationHelper {
                 (Math.abs(normalizedBeta - new_normalizedBeta)) +
                 (Math.abs(normalizedGamma - new_normalizedGamma))
             )
-            console.log(`Percent change ${this.percentChange}`)
+            // console.log(`Percent change ${this.percentChange}`)
         }
         return this.percentChange
     }
@@ -63,18 +66,8 @@ export class OrientationHelper {
         (
             event: DeviceOrientationEvent
         ): any => {
-            // arg0: string, handleOrientation: any, arg2: boolean
             this.lastDeviceOrientation = this.deviceOrientation
             this.deviceOrientation = event
-            console.log(`Updating device orientation`)
-            console.log(event)
-            // console.log(`Orientation change event fired 
-            //             {arg0}
-            //             ${arg0}
-            //             {arg2}
-            //             ${arg2}
-            //             {handleOrientation}
-            //             ${handleOrientation}
-            //             `)
+            if (this.callback) this.callback(event)
         }
 }
