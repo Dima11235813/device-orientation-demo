@@ -5,9 +5,9 @@ import { StartScreen } from "./view/StartScreen";
 import { FailScreen } from "./view/FailScreen";
 
 export const getDisplayBasedOnState = (
-  appState: AppState
+  viewState: ViewState
 ): ReactComponentElement<any> => {
-  switch (appState.viewState) {
+  switch (viewState) {
     case ViewState.Balancing:
       return <HoldStill />;
     case ViewState.StartScreen:

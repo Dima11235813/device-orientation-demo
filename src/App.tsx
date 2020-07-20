@@ -1,60 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { VibrationHandler } from "./domain/Vibrate";
-import { OrientationHelper } from "./domain/Orientation";
-import { IAppState, AppState, ViewState } from "./App.model";
+
+import { ViewState } from "./App.model";
 import { getDisplayBasedOnState } from "./AppViewUtil";
+import {  appContext } from "./context/AppContext";
 
 function App() {
-  let [displayText, setDisplayText] = useState("");
-  let [appState, setAppState] = useState<AppState>(new AppState());
-  let display = getDisplayBasedOnState(appState);
-  let orientationHelper = new OrientationHelper();
+  let context = useContext(appContext);
+  let [view, setView] = useState(ViewState.StartScreen);
 
   //Toggle fail screen on fails
-  const toggleFailScreen = (showFailScreen: boolean) => {
-    if (showFailScreen) {
-      setAppState({
-        viewState: ViewState.Fail,
-      });
-    } else {
-      setAppState({
-        viewState: ViewState.Balancing,
-      });
-    }
+let handleOrientationChange = (event: DeviceOrientationEvent) => {
+    context.vibrationHelper.handleChange(setView);
   };
-  let handleOrientationChange = (event: DeviceOrientationEvent) => {
-    vibrationHelper.handleChange()
-  };
-  let vibrationHelper = new VibrationHandler(
-    orientationHelper,
-    toggleFailScreen,
-    setDisplayText
-  );
-  //button click handlers
+  //button click handlersF
   const handleStartClick = () => {
-    orientationHelper.setHandler(handleOrientationChange);
-    setAppState({
-      viewState: ViewState.Balancing,
-    });
+    context.orientationHelper.setHandler(handleOrientationChange);
+    setView(ViewState.Balancing);
   };
   const handleStopClick = () => {
-    orientationHelper.removeHandler();
-    setDisplayText("")
-    setAppState({
-      viewState: ViewState.StartScreen,
-    });
+    context.orientationHelper.removeHandler();
+    setView(ViewState.StartScreen);
   };
 
   return (
     <div className="App">
-      {display}
+      {getDisplayBasedOnState(view)}
       <div className="button-container">
         <button onClick={handleStartClick}>Start</button>
         <button onClick={handleStopClick}>Stop</button>
       </div>
-      <div className="display-text">{displayText}</div>
+      <div className="display-text">
+        {context.vibrationHelper.getDisplayText()}
+      </div>
     </div>
   );
 }

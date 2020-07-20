@@ -1,12 +1,14 @@
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { isAbsolute } from "path";
+import { ViewState } from "../App.model";
 
 export interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
 
 }
 
 export class OrientationHelper {
+    public viewState = ViewState.StartScreen
     public percentChange: any;
     public deviceOrientation?: ExtendedDeviceOrientationEvent
     public lastDeviceOrientation?: ExtendedDeviceOrientationEvent

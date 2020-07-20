@@ -1,9 +1,9 @@
 // import React from 'react'
 // import ThemeContext from './theme-context'
 
-
-
 import React from "react";
+import { OrientationHelper } from "../domain/Orientation";
+import { VibrationHandler } from "../domain/Vibrate";
 
 // const Person = (props: any) => {
 //   return (
@@ -16,9 +16,15 @@ import React from "react";
 
 export interface IAppContext {
   deviceOrientation?: DeviceOrientationEvent;
+  vibrationHelper: VibrationHandler;
+  orientationHelper: OrientationHelper;
 }
 export class AppContext {
-  constructor(public deviceOrientation: DeviceOrientationEvent) {}
+  constructor(
+    public orientationHelper = new OrientationHelper(),
+    public vibrationHelper = new VibrationHandler(orientationHelper),
+    public deviceOrientation?: DeviceOrientationEvent
+  ) {}
 }
 
-const appContext = React.createContext({});
+export const appContext = React.createContext<IAppContext>(new AppContext());
