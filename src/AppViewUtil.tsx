@@ -1,4 +1,4 @@
-import { AppState, ViewState } from "./App.model";
+import { ViewState } from "./App.model";
 import React, { ReactComponentElement } from "react";
 import { HoldStill } from "./view/OrientationDisplay";
 import { StartScreen } from "./view/StartScreen";

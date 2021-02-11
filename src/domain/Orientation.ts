@@ -1,6 +1,6 @@
-import { useContext } from "react";
-import { AppContext } from "../context/AppContext";
-import { isAbsolute } from "path";
+// import { useContext } from "react";
+// import { AppContext } from "../context/AppContext";
+// import { isAbsolute } from "path";
 import { ViewState } from "../App.model";
 
 export interface ExtendedDeviceOrientationEvent extends DeviceOrientationEvent {
@@ -34,7 +34,7 @@ export class OrientationHelper {
     calcDiff = () => {
         if (this.lastDeviceOrientation && this.deviceOrientation) {
             const {
-                absolute,
+                // absolute,
                 alpha,
                 beta,
                 gamma
@@ -44,7 +44,7 @@ export class OrientationHelper {
                 // gammaisAbsolute
             } = this!.lastDeviceOrientation
             const {
-                absolute: new_absolute,
+                // absolute: new_absolute,
                 alpha: new_alpha,
                 beta: new_beta,
                 gamma: new_gamma
